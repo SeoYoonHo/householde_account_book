@@ -74,7 +74,9 @@ function TreeItem({ node }: Readonly<{ node: TreeNode }>) {
 
   return (
     <div className="ml-2 border-l border-dashed pl-2">
-      <button role="treeitem" aria-selected="false"
+      <button
+        role="treeitem"
+        aria-selected="false"
         tabIndex={0}
         className={rowClass}
         onClick={() => node.children && setExpanded(!expanded)}
@@ -82,7 +84,7 @@ function TreeItem({ node }: Readonly<{ node: TreeNode }>) {
         <span className="truncate font-medium text-sm leading-relaxed col-span-1">
           {getTreeSymbol(node.children, expanded)} {node.label}
         </span>
-        <span className="text-right font-semibold text-gray-800 tracking-tight">
+        <span className="text-right font-semibold text-gray-800 tracking-tight whitespace-nowrap">
           {formatAmount(node.amount)}
         </span>
       </button>
@@ -114,20 +116,24 @@ export default function SummaryPage() {
   }, [month]);
 
   return (
-    <div className="relative p-6 space-y-4">
-      {<HomeButton />}
-      <h1 className="text-2xl font-bold">수입/지출 요약</h1>
-      <div>
-        <label htmlFor="month" className="mr-2 font-medium">월 선택:</label>
+    <div className="relative p-4 sm:p-6 space-y-4 max-w-3xl w-full mx-auto">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">수입/지출 요약</h1>
+        <HomeButton />
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <label htmlFor="month" className="font-medium">월 선택:</label>
         <input
           id="month"
           type="month"
           value={month}
           onChange={(e) => setMonth(e.target.value)}
-          className="border px-2 py-1 rounded"
+          className="border px-2 py-1 rounded max-w-[160px]"
         />
       </div>
-      <div className="space-y-1" style={{width:'50%'}}>
+
+      <div className="space-y-1 w-full">
         {tree.map((node) => (
           <TreeItem key={node.label} node={node} />
         ))}
