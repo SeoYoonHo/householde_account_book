@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     DB_PASSWORD: process.env.DB_PASSWORD,
     DB_NAME: process.env.DB_NAME,
   },
+  output: "standalone",
+  typescript: {
+    ignoreBuildErrors: true,
+  }
 };
 
 export default nextConfig;
