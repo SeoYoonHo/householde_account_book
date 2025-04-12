@@ -85,7 +85,7 @@ export default function TransactionsPage() {
               {transactions.map((tx, idx) => (
                 <tr key={tx.id} className="even:bg-gray-50">
                   <td className="p-2 border text-center">{idx + 1}</td>
-                  <td className="p-2 border whitespace-nowrap">{tx.transaction_date}</td>
+                  <td className="p-2 border whitespace-nowrap">{tx.transaction_date?.split("T")[0] || ""}</td>
                   <td className="p-2 border whitespace-nowrap">{tx.transaction_time}</td>
                   <td className="p-2 border">{tx.transaction_type}</td>
                   <td className="p-2 border">{tx.category_large}</td>
