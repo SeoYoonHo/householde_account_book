@@ -8,6 +8,7 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 # 소스 복사 및 빌드
 COPY . .
+COPY .env.dev .env
 RUN pnpm build
 
 # 2단계: 경량 런타임
