@@ -1,14 +1,15 @@
 export interface Transaction {
-  transaction_date: string | null;
-  transaction_time: string | null;
-  transaction_type: string | null;
-  category_large: string | null;
-  category_small: string | null;
-  description: string | null;
+  id: number;
+  transaction_date: string;
+  transaction_time: string;
+  transaction_type: string;
+  category_large: string;
+  category_small: string;
+  description: string;
   amount: number;
-  currency: string | null;
-  payment_method: string | null;
-  memo: string | null;
+  currency: string;
+  payment_method: string;
+  memo: string;
   source_file: string;
   uploaded_by: string;
 }

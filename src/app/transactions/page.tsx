@@ -1,25 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, } from "react";
 import { HomeButton } from "@/components/ui/HomeButton";
-
-interface Transaction {
-  id: number;
-  transaction_date: string;
-  transaction_time: string;
-  transaction_type: string;
-  category_large: string;
-  category_small: string;
-  description: string;
-  amount: number;
-  currency: string;
-  payment_method: string;
-  memo: string;
-  source_file: string;
-  uploaded_by: string;
-}
+import { Transaction } from "@/model/transaction";
+import { useRouter } from "next/navigation";
 
 export default function TransactionsPage() {
+  const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState<string>("");
@@ -56,6 +43,16 @@ export default function TransactionsPage() {
         onChange={(e) => setSelectedMonth(e.target.value)}
         className="border p-1 rounded"
       />
+      </div>
+
+      {/* 수정 화면 이동 버튼 */}
+      <div className="mb-4">
+        <button
+          onClick={() => router.push(`/transactions/edit?month=${selectedMonth}`)}
+          className="bg-blue-600 text-white px-3 py-1 rounded"
+        >
+          수정하기
+        </button>
       </div>
 
       {/* 🔄 로딩 중 */}
