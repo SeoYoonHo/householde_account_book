@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  processAuth(req);
+  return processAuth(req);
 }
 
 function processAuth(req: NextRequest){
