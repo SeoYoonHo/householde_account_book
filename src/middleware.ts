@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   return processAuth(req);
 }
 
-function processAuth(req: NextRequest){
+async function processAuth(req: NextRequest){
   const token = req.cookies.get("accessToken")?.value;
   const { pathname } = req.nextUrl;
 
@@ -28,8 +29,9 @@ function processAuth(req: NextRequest){
 
   // 3. ✅ 토큰이 있으면 검증
   try {
-    jwt.verify(token, process.env.JWT_SECRET!);
-    return NextResponse.next(); // ✅ 통과
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+    await jwtVerify(token, secret); // 유효성만 검사
+    return NextResponse.next();
   } catch (err) {
     console.error("JWT 검증 실패:", err);
     return handleUnauthorized(req, "Invalid or expired token");
