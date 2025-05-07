@@ -23,7 +23,7 @@ function processAuth(req: NextRequest){
 
   // 2. ❌ 토큰이 없으면 인증 실패
   if (!token) {
-    return handleUnauthorized(pathname, "Access token missing");
+    return handleUnauthorized(req, "Access token missing");
   }
 
   // 3. ✅ 토큰이 있으면 검증
@@ -32,11 +32,13 @@ function processAuth(req: NextRequest){
     return NextResponse.next(); // ✅ 통과
   } catch (err) {
     console.error("JWT 검증 실패:", err);
-    return handleUnauthorized(pathname, "Invalid or expired token");
+    return handleUnauthorized(req, "Invalid or expired token");
   }
 }
 
-function handleUnauthorized(pathname: string, message: string) {
+function handleUnauthorized(req: NextRequest, message: string) {
+  const { pathname } = req.nextUrl;
+
   if (pathname.startsWith("/api/")) {
     return new NextResponse(JSON.stringify({ message }), {
       status: 401,
@@ -44,7 +46,8 @@ function handleUnauthorized(pathname: string, message: string) {
     });
   }
 
-  const loginUrl = new URL("/login", "http://localhost:3000"); // 또는 req.nextUrl.origin 사용
+  const loginUrl = req.nextUrl.clone();
+  loginUrl.pathname = "/login"; // 현재 origin 유지
   return NextResponse.redirect(loginUrl);
 }
 
