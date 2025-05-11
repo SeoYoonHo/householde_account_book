@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { pool } from "@/lib/db/pool"; // 너가 사용하는 DB 커넥션 풀 위치
+import { getConnection } from "@/lib/db/client";
 
 // 수정 가능한 필드만 정의
 const editableFields = [
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Invalid payload" }, { status: 400 });
     }
 
-    const conn = await pool.getConnection();
+    const conn = await getConnection();
 
     try {
       await conn.beginTransaction();
