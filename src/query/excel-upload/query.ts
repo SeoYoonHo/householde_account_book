@@ -1,14 +1,14 @@
-import { pool } from "@/lib/db/pool";
+import { query } from "@/lib/db/client";
 import { Transaction } from "@/model/transaction";
 
 async function selectMaxTransactionDate(uploadedBy: string) {
-  const query = `
+  const query1 = `
     SELECT MAX(transaction_date) AS latest 
     FROM finance_transactions 
     WHERE uploaded_by = ?
   `;
 
-  return await pool.query(query, [uploadedBy]);
+  return await query(query1, [uploadedBy]);
 }
 
 async function insertTransactions(transactions: Transaction[]) {
@@ -36,7 +36,7 @@ async function insertTransactions(transactions: Transaction[]) {
     tx.uploaded_by,
   ]);
 
-  await pool.query(insertQuery, [values]);
+  await query(insertQuery, [values]);
 }
 
 export {insertTransactions, selectMaxTransactionDate}

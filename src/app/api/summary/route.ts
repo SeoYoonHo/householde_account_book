@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { pool } from "@/lib/db/pool";
+import { query } from "@/lib/db/client";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const month = searchParams.get("month");
   const whereClause = month ? `WHERE DATE_FORMAT(transaction_date, '%Y-%m') = '${month}'` : '';
-  const [rows] = await pool.query(`
+  const [rows] = await query(`
     SELECT
       transaction_type,
       category_large,

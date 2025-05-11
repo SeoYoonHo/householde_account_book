@@ -1,7 +1,7 @@
 // src/app/api/auth/kakao/callback/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { pool } from "@/lib/db/pool";
+import { query } from "@/lib/db/client";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -40,9 +40,11 @@ export async function GET(req: NextRequest) {
     }
 
     // 3. DB 조회: 이메일 기준 사용자 존재 여부
-    const [rows]: unknown[] = await pool.query(`
+    const [rows]: unknown[] = await query(`
       SELECT * FROM users WHERE email = ?
       `, [email]);
+    
+    console.log(rows);
 
     if (!rows.length) {
       return NextResponse.json({ message: "등록되지 않은 사용자입니다." }, { status: 401 });

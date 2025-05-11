@@ -1,4 +1,4 @@
-import { pool } from "@/lib/db/pool";
+import { query } from "@/lib/db/client";
 
 async function selectTransactions(month: string) {
   const selectQuery = `
@@ -7,7 +7,7 @@ async function selectTransactions(month: string) {
       ORDER BY transaction_date DESC, transaction_time DESC
   `;
 
-  return await pool.query(selectQuery, [month]);
+  return await query(selectQuery, [month]);
 }
 
 export {selectTransactions}

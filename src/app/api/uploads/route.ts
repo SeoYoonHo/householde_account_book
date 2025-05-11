@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { pool } from "@/lib/db/pool";
+import { query } from "@/lib/db/client";
 
 export async function GET() {
-  const [rows] = await pool.query(`
+  const [rows] = await query(`
     SELECT source_file, uploaded_by, COUNT(*) AS count
     FROM finance_transactions
     GROUP BY source_file, uploaded_by
